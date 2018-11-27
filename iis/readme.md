@@ -1,8 +1,7 @@
-# Einleitung
-Docker Samplefile für einen Container der einen IIS enthält über den eine einfache HTML Seite ausgeliefert wird.
+Docker Samplefile for a container that contains an IIS via which a simple HTML page is delivered.
 
-# Anmerkungen
-Läuft nur in Windows-Containern
+# Note
+Works only in Windows-Containern
 
 # Create Docker Container
 docker build --rm -f "Dockerfile" -t iis_spike:latest .
