@@ -1,12 +1,21 @@
 FROM microsoft/mssql-server-windows-developer
-RUN mkdir -p  C:\\SQL
-COPY files/ C:\\SQL
 
-# Instruct docker to wait for 10 seconds (to allow SQL to initialise) and then perform a check to ensure the container is running as expected
-HEALTHCHECK --interval=10s
+COPY files/ .
+
+ENV ACCEPT_EULA Y
+ENV sa_password "mysqlserversapwd123AE?"
+ENV  attach_dbs="[]"
+
+RUN PowerShell /Build.ps1
 
 # Use sqlcmd to connect to the SQL instance within the container
-CMD /opt/mssql-tools/bin/sqlcmd -S . -U sa -P my_sql_server_sa_pwd§$123
+# RUN CMD /opt/mssql-tools/bin/sqlcmd -S . -U sa -P $env:sa_password
 
 # Runs a SQL script to attach the database
--Q "CREATE DATABASE MyDb ON (FILENAME = 'C:/SQL/mydb.mdf'),(FILENAME = 'C:/SQL/mydb_log.ldf') FOR ATTACH
+# RUN sqlcmd -i init.sql
+#RUN sqlcmd -q "CREATE DATABASE MyDb ON (FILENAME = 'mydb.mdf') LOG ON(FILENAME = 'mydb_log.ldf') FOR ATTACH"
+#RUN CMD .\start -sa_password $env:sa_password -ACCEPT_EULA $env:ACCEPT_EULA -attach_dbs \"$env:attach_dbs\" -Verbose
+
+
+HEALTHCHECK CMD [ "sqlcmd", "-Q", "select 1" ]
+CMD .\start -sa_password $env:sa_password -ACCEPT_EULA $env:ACCEPT_EULA -attach_dbs \"$env:attach_dbs\" -Verbose
