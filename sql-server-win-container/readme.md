@@ -6,4 +6,4 @@ docker run -d -p 1433:1433 --name sql --ip 172.29.39.203 sql-server-win-containe
 
 # Test
 ## Connect to sql server
-docker exec -it sql C:\\Program Files\\Microsoft SQL Server\\110\\Tools\\Binn\\sqlcmd -S 172.29.42.25 -U sa -P mysqlserversapwd123AE?
+docker exec -it sql C:\\Program Files\\Microsoft SQL Server\\110\\Tools\\Binn\\sqlcmd -S 172.29.39.203 -U sa -P mysqlserversapwd123AE?
